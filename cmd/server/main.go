@@ -27,16 +27,16 @@ type User struct {
 	gorm.Model
 	Name     string `json:"name"`
 	Email    string `json:"email"`
-	Password string `json:"password"`
+	password string
 }
 
 func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
-	hash, err := HashPassword(u.Password)
+	hash, err := HashPassword(u.password)
 	if err != nil {
 		panic("pass encryption went wrong")
 	}
 
-	u.Password = hash
+	u.password = hash
 	return
 }
 
