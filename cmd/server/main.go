@@ -44,9 +44,14 @@ func main() {
 	fmt.Printf(`Server running and listening on port %v`, port)
 
 	db, err = gorm.Open("postgres", "port=5432 user=postgres dbname=postgres sslmode=disable password=superpass@123")
+
 	if err != nil {
 		panic(err)
 	}
+
+	defer db.Close()
+
+	db.AutoMigrate(&User{})
 
 	handler := cors.Default().Handler(r)
 	log.Fatal(http.ListenAndServe(port, handler))
@@ -62,6 +67,9 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var user User
 	json.NewDecoder(r.Body).Decode(&user)
+
+	db.Create(&user)
+
 	json.NewEncoder(w).Encode(user)
 
 }
