@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"net/http"
@@ -55,6 +56,7 @@ func main() {
 	port := ":3000"
 
 	r.HandleFunc("/", checkApiHealth).Methods("GET")
+	r.HandleFunc("/users", GetUsers).Methods("GET")
 	r.HandleFunc("/users", CreateUser).Methods("POST")
 	r.HandleFunc("/users/{id}", getUser).Methods("GET")
 
@@ -71,6 +73,7 @@ func main() {
 
 	db.AutoMigrate(&User{})
 
+	fmt.Println("API running and listening on port 3000")
 	handler := cors.Default().Handler(r)
 	log.Fatal(http.ListenAndServe(port, handler))
 
@@ -109,6 +112,20 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(user)
 
+}
+
+func GetUsers(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("content-type", "application/json")
+	var users []User
+	result := db.Find(&users)
+
+	if result.Error != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(result.Error)
+		return
+	}
+
+	json.NewEncoder(w).Encode(result.Value)
 }
 
 func getUser(w http.ResponseWriter, r *http.Request) {
