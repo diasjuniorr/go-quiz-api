@@ -7,6 +7,10 @@ RESTful API using [Go](https://golang.org), [Mux](https://github.com/gorilla/mux
 
 As of now the API offers the following endpoints:
 
+## HealthCheck
+
+- `GET /`: Get API health status
+
 ## User
 
 - `GET /users`: Get users
