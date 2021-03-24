@@ -7,8 +7,8 @@ RESTful API using [Go](https://golang.org), [Mux](https://github.com/gorilla/mux
 
 As of now the API offers the following endpoints:
 
-```bash
-GET `/users`: Get users
-GET `/users/{id}`: Get user by id
-POST `/users`: Create a new user
-```
+## User
+
+`GET /users`: Get users
+`GET /users/{id}`: Get user by id
+`POST /users`: Create a new user
