@@ -2,11 +2,18 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	"encoding/json"
 
 	"github.com/gorilla/mux"
+
+	"github.com/jinzhu/gorm"
+
+	"github.com/rs/cors"
+
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
 type HealthCheck struct {
@@ -15,12 +22,15 @@ type HealthCheck struct {
 }
 
 type User struct {
+	gorm.Model
 	Name     string `json:"name"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
 var healthStauts = HealthCheck{Version: "1.0", Status: "ok"}
+
+var db *gorm.DB
 
 func main() {
 	r := mux.NewRouter()
@@ -31,7 +41,9 @@ func main() {
 	r.HandleFunc("/users/{id}", getUser).Methods("GET")
 
 	fmt.Printf(`Server running and listening on port %v`, port)
-	http.ListenAndServe(port, r)
+
+	handler := cors.Default().Handler(r)
+	log.Fatal(http.ListenAndServe(port, handler))
 
 }
 
