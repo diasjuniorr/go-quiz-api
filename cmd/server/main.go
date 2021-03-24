@@ -23,6 +23,11 @@ type HealthCheck struct {
 	Status  string `json:"status"`
 }
 
+type RequestError struct {
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+}
+
 type User struct {
 	gorm.Model
 	Name     string `json:"name"`
@@ -55,6 +60,7 @@ func main() {
 
 	fmt.Printf(`Server running and listening on port %v`, port)
 
+	//todo create DATABASE_CONNSTR
 	db, err = gorm.Open("postgres", "port=5432 user=postgres dbname=postgres sslmode=disable password=superpass@123")
 
 	if err != nil {
@@ -89,6 +95,14 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var user User
 	json.NewDecoder(r.Body).Decode(&user)
+
+	u := db.Where("email = ?", user.Email).First(&user)
+	if u.RowsAffected > 0 {
+		w.WriteHeader(http.StatusConflict)
+		err := RequestError{Code: http.StatusConflict, Msg: "User already exists"}
+		json.NewEncoder(w).Encode(err)
+		return
+	}
 
 	db.Create(&user)
 
