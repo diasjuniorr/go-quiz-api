@@ -97,9 +97,9 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	var user User
 	json.NewDecoder(r.Body).Decode(&user)
 
-	userAllowed := db.Where("email = ?", user.Email).First(&user).RecordNotFound()
+	userIsAllowed := db.Where("email = ?", user.Email).First(&user).RecordNotFound()
 
-	if !userAllowed {
+	if !userIsAllowed {
 		w.WriteHeader(http.StatusConflict)
 		err := RequestError{Code: http.StatusConflict, Msg: "User already exists"}
 		json.NewEncoder(w).Encode(err)
@@ -129,5 +129,22 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 func getUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(r)
-	json.NewEncoder(w).Encode(params["id"])
+
+	var user User
+
+	result := db.First(&user, params["id"])
+
+	if result.Error == gorm.ErrRecordNotFound {
+		w.WriteHeader(http.StatusNotFound)
+		json.NewEncoder(w).Encode(result.Error)
+		return
+	}
+
+	if result.Error != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(result.Error)
+		return
+	}
+
+	json.NewEncoder(w).Encode(result.Value)
 }
