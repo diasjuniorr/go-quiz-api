@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"log"
+
 	"net/http"
 
 	"encoding/json"
@@ -58,7 +58,7 @@ func main() {
 	r.HandleFunc("/users", CreateUser).Methods("POST")
 	r.HandleFunc("/users/{id}", getUser).Methods("GET")
 
-	fmt.Printf(`Server running and listening on port %v`, port)
+	// fmt.Printf(`Server running and listening on port %v`, port)
 
 	//todo create DATABASE_CONNSTR
 	db, err = gorm.Open("postgres", "port=5432 user=postgres dbname=postgres sslmode=disable password=superpass@123")
@@ -96,8 +96,9 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	var user User
 	json.NewDecoder(r.Body).Decode(&user)
 
-	u := db.Where("email = ?", user.Email).First(&user)
-	if u.RowsAffected > 0 {
+	userAllowed := db.Where("email = ?", user.Email).First(&user).RecordNotFound()
+
+	if !userAllowed {
 		w.WriteHeader(http.StatusConflict)
 		err := RequestError{Code: http.StatusConflict, Msg: "User already exists"}
 		json.NewEncoder(w).Encode(err)
