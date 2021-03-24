@@ -31,6 +31,7 @@ type User struct {
 var healthStauts = HealthCheck{Version: "1.0", Status: "ok"}
 
 var db *gorm.DB
+var err error
 
 func main() {
 	r := mux.NewRouter()
@@ -41,6 +42,11 @@ func main() {
 	r.HandleFunc("/users/{id}", getUser).Methods("GET")
 
 	fmt.Printf(`Server running and listening on port %v`, port)
+
+	db, err = gorm.Open("postgres", "port=5432 user=postgres dbname=postgres sslmode=disable password=superpass@123")
+	if err != nil {
+		panic(err)
+	}
 
 	handler := cors.Default().Handler(r)
 	log.Fatal(http.ListenAndServe(port, handler))
