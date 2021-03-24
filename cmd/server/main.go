@@ -28,6 +28,11 @@ type User struct {
 	Password string `json:"password"`
 }
 
+func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
+
+	return
+}
+
 var healthStauts = HealthCheck{Version: "1.0", Status: "ok"}
 
 var db *gorm.DB
