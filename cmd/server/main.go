@@ -14,6 +14,8 @@ import (
 	"github.com/rs/cors"
 
 	_ "github.com/jinzhu/gorm/dialects/postgres"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 type HealthCheck struct {
@@ -29,7 +31,12 @@ type User struct {
 }
 
 func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
+	hash, err := HashPassword(u.Password)
+	if err != nil {
+		panic("pass encryption went wrong")
+	}
 
+	u.Password = hash
 	return
 }
 
@@ -66,6 +73,16 @@ func main() {
 func checkApiHealth(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(healthStauts)
+}
+
+func HashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	return string(bytes), err
+}
+
+func CheckPasswordHash(password, hash string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	return err == nil
 }
 
 func CreateUser(w http.ResponseWriter, r *http.Request) {
