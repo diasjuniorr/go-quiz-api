@@ -9,6 +9,6 @@ As of now the API offers the following endpoints:
 
 ## User
 
-`GET /users`: Get users
-`GET /users/{id}`: Get user by id
-`POST /users`: Create a new user
+- `GET /users`: Get users
+- `GET /users/{id}`: Get user by id
+- `POST /users`: Create a new user
