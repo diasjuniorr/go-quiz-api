@@ -1,4 +1,4 @@
-## WIP Quiz APP API
+## [WIP] Quiz APP API
 
 This API is a work in progress being developed as a side project to exemplify the creation of a
 RESTful API using [Go](https://golang.org), [Mux](https://github.com/gorilla/mux) as the routing framework and [Postgres](https://www.postgresql.org) as the database.
