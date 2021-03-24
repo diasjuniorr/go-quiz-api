@@ -60,8 +60,6 @@ func main() {
 	r.HandleFunc("/users", CreateUser).Methods("POST")
 	r.HandleFunc("/users/{id}", getUser).Methods("GET")
 
-	// fmt.Printf(`Server running and listening on port %v`, port)
-
 	//todo create DATABASE_CONNSTR
 	db, err = gorm.Open("postgres", "port=5432 user=postgres dbname=postgres sslmode=disable password=superpass@123")
 
@@ -73,7 +71,7 @@ func main() {
 
 	db.AutoMigrate(&User{})
 
-	fmt.Println("API running and listening on port 3000")
+	fmt.Printf(`Server running and listening on port %v`, port)
 	handler := cors.Default().Handler(r)
 	log.Fatal(http.ListenAndServe(port, handler))
 
