@@ -31,7 +31,6 @@ Now you have the API at `http://127.0.0.1:3000` providing the following endpoint
 ## TODO
 
 - [] Add env vars
-- [x] Change postgres pk from autoincrement to UUID
 - [] Test all endpoints
 - [] Add Dockerfile for local developement
 - [] Add log system
