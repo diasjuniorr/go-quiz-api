@@ -5,10 +5,10 @@ import (
 
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 
-	"github.com/jotajay/go-quiz-app/cmd/db/repository"
+	"github.com/jotajay/go-quiz-app/internal/user"
 )
 
-func initializeDB() *gorm.DB {
+func InitializeDB() (*gorm.DB, error) {
 
 	var db *gorm.DB
 	var err error
@@ -16,13 +16,11 @@ func initializeDB() *gorm.DB {
 	//todo create DATABASE_CONNSTR
 	db, err = gorm.Open("postgres", "port=5432 user=postgres dbname=postgres sslmode=disable password=superpass@123")
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
-	defer db.Close()
+	db.AutoMigrate(&user.User{})
 
-	db.AutoMigrate(&repository.User{})
-
-	return db
+	return db, nil
 
 }
