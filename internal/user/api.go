@@ -60,7 +60,7 @@ func GetUser(db *gorm.DB) func(w http.ResponseWriter, r *http.Request) {
 
 		var user User
 
-		result := db.First(&user, params["id"])
+		result := db.Where("ID = ?", params["id"]).First(&user)
 
 		if result.Error == gorm.ErrRecordNotFound {
 			w.WriteHeader(http.StatusNotFound)
