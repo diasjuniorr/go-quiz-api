@@ -14,7 +14,7 @@ type Base struct {
 	DeletedAt *time.Time `sql:"index"`
 }
 
-func (base *Base) BeforeCreate(scope *gorm.Scope) error {
+func (base *Base) BeforeSave(scope *gorm.Scope) error {
 	uuid := uuid.NewV4()
 	return scope.SetColumn("ID", uuid)
 }
