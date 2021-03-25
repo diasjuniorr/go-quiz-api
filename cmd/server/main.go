@@ -8,11 +8,9 @@ import (
 
 	"encoding/json"
 
-	"github.com/gorilla/mux"
 
 	"github.com/jinzhu/gorm"
 
-	"github.com/rs/cors"
 
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 
@@ -29,22 +27,7 @@ type RequestError struct {
 	Msg  string `json:"msg"`
 }
 
-type User struct {
-	gorm.Model
-	Name     string `json:"name"`
-	Email    string `json:"email"`
-	password string
-}
 
-func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
-	hash, err := HashPassword(u.password)
-	if err != nil {
-		panic("pass encryption went wrong")
-	}
-
-	u.password = hash
-	return
-}
 
 var healthStauts = HealthCheck{Version: "1.0", Status: "ok"}
 
@@ -52,28 +35,15 @@ var db *gorm.DB
 var err error
 
 func main() {
-	r := mux.NewRouter()
-	port := ":3000"
 
-	r.HandleFunc("/", checkApiHealth).Methods("GET")
-	r.HandleFunc("/users", GetUsers).Methods("GET")
-	r.HandleFunc("/users", CreateUser).Methods("POST")
-	r.HandleFunc("/users/{id}", getUser).Methods("GET")
-
-	//todo create DATABASE_CONNSTR
-	db, err = gorm.Open("postgres", "port=5432 user=postgres dbname=postgres sslmode=disable password=superpass@123")
-
-	if err != nil {
-		panic(err)
-	}
-
-	defer db.Close()
-
-	db.AutoMigrate(&User{})
-
-	fmt.Printf(`Server running and listening on port %v`, port)
-	handler := cors.Default().Handler(r)
-	log.Fatal(http.ListenAndServe(port, handler))
+	//set api version 
+	
+	//start mux
+	//start db
+	////register routes passing db instance 
+	//init cors middlaware 
+	//listen 
+	
 
 }
 
@@ -82,69 +52,13 @@ func checkApiHealth(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(healthStauts)
 }
 
-func HashPassword(password string) (string, error) {
-	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
-	return string(bytes), err
-}
 
-func CheckPasswordHash(password, hash string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
-	return err == nil
-}
 
-func CreateUser(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	var user User
-	json.NewDecoder(r.Body).Decode(&user)
 
-	userIsAllowed := db.Where("email = ?", user.Email).First(&user).RecordNotFound()
 
-	if !userIsAllowed {
-		w.WriteHeader(http.StatusConflict)
-		err := RequestError{Code: http.StatusConflict, Msg: "User already exists"}
-		json.NewEncoder(w).Encode(err)
-		return
-	}
-
-	db.Create(&user)
-
-	json.NewEncoder(w).Encode(user)
 
 }
 
-func GetUsers(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("content-type", "application/json")
-	var users []User
-	result := db.Find(&users)
 
-	if result.Error != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		json.NewEncoder(w).Encode(result.Error)
-		return
-	}
 
-	json.NewEncoder(w).Encode(result.Value)
-}
 
-func getUser(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	params := mux.Vars(r)
-
-	var user User
-
-	result := db.First(&user, params["id"])
-
-	if result.Error == gorm.ErrRecordNotFound {
-		w.WriteHeader(http.StatusNotFound)
-		json.NewEncoder(w).Encode(result.Error)
-		return
-	}
-
-	if result.Error != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		json.NewEncoder(w).Encode(result.Error)
-		return
-	}
-
-	json.NewEncoder(w).Encode(result.Value)
-}

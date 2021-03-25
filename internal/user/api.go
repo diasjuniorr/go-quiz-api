@@ -10,7 +10,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func GetUsers(w http.ResponseWriter, r *http.Request, db *gorm.DB) {
+func GetUsers(w http.ResponseWriter, r *http.Request, db *gorm.DB) mux.Router{
 	w.Header().Set("content-type", "application/json")
 	var users []User
 	result := db.Find(&users)
