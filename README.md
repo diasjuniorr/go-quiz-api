@@ -18,8 +18,6 @@ go run /cmd/server/main.go
 
 Now you have the API at `http://127.0.0.1:3000` providing the following endpoints:
 
-As of now the API offers the following endpoints:
-
 ## HealthCheck
 
 - `GET /`: Get API health status
