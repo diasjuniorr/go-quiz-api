@@ -19,6 +19,7 @@ As of now the API offers the following endpoints:
 
 ## TODO
 
+- [] Add env vars
 - [] Change postgres pk from autoincrement to UUID
 - [] Test all endpoints
 - [] Add Dockerfile for local developement

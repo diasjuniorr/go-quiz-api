@@ -1,13 +1,15 @@
 package user
 
 import (
+	"github.com/jotajay/go-quiz-app/internal/entity"
+
 	"github.com/jinzhu/gorm"
 
 	"github.com/jotajay/go-quiz-app/pkg/util"
 )
 
 type User struct {
-	gorm.Model
+	entity.Base
 	Name     string `json:"name"`
 	Email    string `json:"email"`
 	password string
