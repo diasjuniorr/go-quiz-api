@@ -3,6 +3,19 @@
 This API is a work in progress being developed as a side project to exemplify the creation of a
 RESTful API using [Go](https://golang.org), [Mux](https://github.com/gorilla/mux) as the routing framework and [Postgres](https://www.postgresql.org) as the database.
 
+## Getting Started
+
+If this is your first time encountering Go, please follow [the instructions](https://golang.org/doc/install) to
+install Go on your computer. The kit requires **Go 1.16 or above**.
+
+```shell
+# clone the repo
+git clone https://github.com/jotajay/go-quiz-api.git
+
+cd go-quiz-api
+go run /cmd/server/main.go
+```
+
 ## API Status
 
 As of now the API offers the following endpoints:
