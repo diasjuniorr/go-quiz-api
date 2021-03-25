@@ -16,3 +16,12 @@ As of now the API offers the following endpoints:
 - `GET /users`: Get users
 - `GET /users/{id}`: Get user by id
 - `POST /users`: Create a new user
+
+## TODO
+
+- [] Change postgres pk from autoincrement to UUID
+- [] Test all endpoints
+- [] Add Dockerfile for local developement
+- [] Add log system
+- [] Add CI/CD
+- [] Create endpoints for Quiz, CompletedQuiz & Score
