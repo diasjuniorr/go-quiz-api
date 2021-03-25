@@ -6,7 +6,7 @@ RESTful API using [Go](https://golang.org), [Mux](https://github.com/gorilla/mux
 ## Getting Started
 
 If this is your first time encountering Go, please follow [the instructions](https://golang.org/doc/install) to
-install Go on your computer. The kit requires **Go 1.16 or above**.
+install Go on your computer. The API requires **Go 1.16 or above**.
 
 ```shell
 # clone the repo
