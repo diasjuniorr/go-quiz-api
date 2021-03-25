@@ -18,7 +18,6 @@ var err error
 
 func main() {
 
-	//set api version and port
 	port := ":3000"
 
 	r := mux.NewRouter()
