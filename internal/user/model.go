@@ -1,10 +1,8 @@
 package user
 
 import (
-	"github.com/jotajay/go-quiz-app/internal/entity"
-
 	"github.com/jinzhu/gorm"
-
+	"github.com/jotajay/go-quiz-app/internal/entity"
 	"github.com/jotajay/go-quiz-app/pkg/util"
 )
 
