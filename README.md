@@ -28,6 +28,10 @@ Now you have the API at `http://127.0.0.1:3000` providing the following endpoint
 - `GET /users/{id}`: Get user by id
 - `POST /users`: Create a new user
 
+## Quiz
+
+- `POST /quiz` : Create a new quiz
+
 ## TODO
 
 - [] Add env vars
