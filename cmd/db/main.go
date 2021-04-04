@@ -3,6 +3,7 @@ package db
 import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
+	"github.com/jotajay/go-quiz-app/internal/quiz"
 	"github.com/jotajay/go-quiz-app/internal/user"
 )
 
@@ -18,6 +19,7 @@ func InitializeDB(conn string) (*gorm.DB, error) {
 	}
 
 	db.AutoMigrate(&user.User{})
+	db.AutoMigrate(&quiz.Quiz{})
 
 	return db, nil
 

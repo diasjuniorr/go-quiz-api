@@ -27,7 +27,11 @@ func CreateQuiz(db *gorm.DB) func(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		db.Create(&quiz)
+		result := db.Create(&quiz)
+		if result.Error != nil {
+			json.NewEncoder(w).Encode(result.Error.Error())
+			return
+		}
 
 		json.NewEncoder(w).Encode(quiz)
 	}
