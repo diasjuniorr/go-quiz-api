@@ -2,13 +2,11 @@ package db
 
 import (
 	"github.com/jinzhu/gorm"
-
 	_ "github.com/jinzhu/gorm/dialects/postgres"
-
 	"github.com/jotajay/go-quiz-app/internal/user"
 )
 
-func InitializeDB() (*gorm.DB, error) {
+func InitializeDB(conn string) (*gorm.DB, error) {
 
 	var db *gorm.DB
 	var err error
