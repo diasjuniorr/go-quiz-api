@@ -61,42 +61,42 @@ func (q *Quiz) BeforeCreate(tx *gorm.DB) error {
 
 func validateSubject(s string, minLen int) error {
 	if len(s) < minLen {
-		return fmt.Errorf("should be longer than %v characters", minLen)
+		return fmt.Errorf("subject should be longer than %v characters", minLen)
 	}
 	return nil
 }
 
 func validateCategory(s string, minLen int) error {
 	if len(s) < minLen {
-		return fmt.Errorf("should be longer than %v characters", minLen)
+		return fmt.Errorf("category should be longer than %v characters", minLen)
 	}
 	return nil
 }
 
 func validateSubCategory(s string, minLen int) error {
 	if len(s) < minLen {
-		return fmt.Errorf("should be longer than %v characters", minLen)
+		return fmt.Errorf("subcategory should be longer than %v characters", minLen)
 	}
 	return nil
 }
 
 func validateTitle(s string, minLen int) error {
 	if len(s) < minLen {
-		return fmt.Errorf("should be longer than %v characters", minLen)
+		return fmt.Errorf("title should be longer than %v characters", minLen)
 	}
 	return nil
 }
 
 func validateLevel(level int, minLevel int) error {
-	if level > minLevel {
-		return fmt.Errorf("should be an int greater than %v", minLevel)
+	if level < minLevel {
+		return fmt.Errorf("level should be an int greater than %v", minLevel)
 	}
 	return nil
 }
 
 func validateQuestions(q []Question, minLen int) error {
 	if len(q) > minLen {
-		return fmt.Errorf("array should contain more than %v question(s)", minLen)
+		return fmt.Errorf("questions array should contain more than %v question(s)", minLen)
 	}
 	return nil
 }

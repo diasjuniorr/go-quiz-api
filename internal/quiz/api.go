@@ -29,7 +29,9 @@ func CreateQuiz(db *gorm.DB) func(w http.ResponseWriter, r *http.Request) {
 
 		result := db.Create(&quiz)
 		if result.Error != nil {
-			json.NewEncoder(w).Encode(result.Error.Error())
+			w.WriteHeader(http.StatusBadRequest)
+			err := RequestError{Code: http.StatusBadRequest, Msg: result.Error.Error()}
+			json.NewEncoder(w).Encode(err)
 			return
 		}
 
