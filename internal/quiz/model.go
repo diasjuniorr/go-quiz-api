@@ -12,9 +12,9 @@ type Quiz struct {
 	Subject     string     `json:"subject"`
 	Category    string     `json:"category"`
 	Subcategory string     `json:"subcategory"`
-	Title       string     `json:"title" gorm:"unique;not null"`
+	Title       string     `json:"title"`
 	Level       int        `json:"level"`
-	Questions   []Question `gorm:"not null" json:"questions" `
+	Questions   []Question `json:"questions" `
 }
 
 type Question struct {
