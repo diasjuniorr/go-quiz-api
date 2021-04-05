@@ -25,47 +25,78 @@ type Question struct {
 
 func (q *Quiz) BeforeCreate(tx *gorm.DB) error {
 	var err error
-	if len(q.Subject) < 3 {
-		err = fmt.Errorf("subject: must be at least 3 char long")
-	}
+
+	err = validateSubject(q.Subject, 3)
 	if err != nil {
 		return err
 	}
 
-	if len(q.Category) < 3 {
-		err = fmt.Errorf("category: must be at least 3 char long")
-	}
+	err = validateCategory(q.Category, 3)
 	if err != nil {
 		return err
 	}
 
-	if len(q.Subcategory) < 3 {
-		err = fmt.Errorf("subcategory: must be at least 3 char long")
-	}
+	err = validateSubCategory(q.Subcategory, 3)
 	if err != nil {
 		return err
 	}
 
-	if len(q.Title) < 3 {
-		err = fmt.Errorf("title: must be at least 3 char long")
-	}
+	err = validateTitle(q.Title, 3)
 	if err != nil {
 		return err
 	}
 
-	if (q.Level) < 100 {
-		err = fmt.Errorf("level: must be a number between 100 and 999")
-	}
+	err = validateLevel(q.Level, 100)
 	if err != nil {
 		return err
 	}
 
-	if len(q.Questions) < 1 {
-		err = fmt.Errorf("questions: must have at least one question")
-	}
+	err = validateQuestions(q.Questions, 1)
 	if err != nil {
 		return err
 	}
 
+	return nil
+}
+
+func validateSubject(s string, l int) error {
+	if len(s) < l {
+		return fmt.Errorf("should be longer than %v characters", l)
+	}
+	return nil
+}
+
+func validateCategory(s string, l int) error {
+	if len(s) < l {
+		return fmt.Errorf("should be longer than %v characters", l)
+	}
+	return nil
+}
+
+func validateSubCategory(s string, l int) error {
+	if len(s) < l {
+		return fmt.Errorf("should be longer than %v characters", l)
+	}
+	return nil
+}
+
+func validateTitle(s string, l int) error {
+	if len(s) < l {
+		return fmt.Errorf("should be longer than %v characters", l)
+	}
+	return nil
+}
+
+func validateLevel(level int, limit int) error {
+	if level > limit {
+		return fmt.Errorf("should be an int greater than %v", limit)
+	}
+	return nil
+}
+
+func validateQuestions(q []Question, l int) error {
+	if len(q) > 1 {
+		return fmt.Errorf("array should contain more than %v question(s)", l)
+	}
 	return nil
 }
