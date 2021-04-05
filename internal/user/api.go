@@ -31,7 +31,7 @@ func CreateUser(db *gorm.DB) func(w http.ResponseWriter, r *http.Request) {
 		}
 
 		db.Create(&user)
-
+		w.WriteHeader(http.StatusCreated)
 		json.NewEncoder(w).Encode(user)
 	}
 

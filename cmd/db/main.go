@@ -13,7 +13,7 @@ func InitializeDB(conn string) (*gorm.DB, error) {
 	var err error
 
 	//todo create DATABASE_CONNSTR
-	db, err = gorm.Open("postgres", "port=5432 user=postgres dbname=postgres sslmode=disable password=superpass@123")
+	db, err = gorm.Open("postgres", conn)
 	if err != nil {
 		return nil, err
 	}

@@ -25,7 +25,7 @@ type App struct {
 type Teste int
 
 func (a *App) Initialize(connStr string) error {
-	a.Db, err = db.InitializeDB("teste")
+	a.Db, err = db.InitializeDB(connStr)
 	if err != nil {
 		return err
 	}
