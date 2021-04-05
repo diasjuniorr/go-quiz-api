@@ -27,7 +27,7 @@ func TestMain(m *testing.M) {
 	makeTablesEmpty()
 	code := m.Run()
 	os.Exit(code)
-	// cleanTables()
+	cleanTables()
 
 	app.Run(":3000")
 }
