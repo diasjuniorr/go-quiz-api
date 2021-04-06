@@ -13,7 +13,8 @@ install Go on your computer. The API requires **Go 1.16 or above**.
 git clone https://github.com/jotajay/go-quiz-api.git
 
 cd go-quiz-api
-go run /cmd/server/main.go
+go build /cmd/server/*.go
+./app
 ```
 
 Now you have the API at `http://127.0.0.1:3000` providing the following endpoints:
