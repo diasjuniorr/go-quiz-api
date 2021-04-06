@@ -12,6 +12,10 @@ install Go on your computer. The API requires **Go 1.16 or above**.
 # clone the repo
 git clone https://github.com/jotajay/go-quiz-api.git
 
+# To test the API
+make test
+
+# To initialize the API
 cd go-quiz-api
 go build /cmd/server/*.go
 ./app
