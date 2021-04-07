@@ -22,8 +22,6 @@ type App struct {
 	Router *mux.Router
 }
 
-type Teste int
-
 func (a *App) Initialize(connStr string) error {
 	a.Db, err = db.InitializeDB(connStr)
 	if err != nil {
