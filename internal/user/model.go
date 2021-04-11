@@ -13,13 +13,13 @@ type User struct {
 	password string
 }
 
-func MakeNewUser(name, email, password string) User {
-	return User{
-		Name:     name,
-		Email:    email,
-		password: password,
-	}
-}
+// func MakeNewUser(user PostUserReq) User {
+// 	return User{
+// 		Name:     user.Name,
+// 		Email:    user.Email,
+// 		password: user.Password,
+// 	}
+// }
 
 func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
 	hash, err := util.HashPassword(u.password)

@@ -7,9 +7,12 @@ import (
 	"testing"
 
 	"github.com/jotajay/go-quiz-app/cmd/app"
+	"github.com/jotajay/go-quiz-app/internal/user"
 )
 
 var a app.AppStruct
+var firstUser user.User
+var firstUserId string
 
 func TestMain(m *testing.M) {
 	a = app.AppStruct{}
@@ -22,8 +25,19 @@ func TestMain(m *testing.M) {
 	}
 	defer a.Db.Close()
 
+	createNewUser()
+
 	code := m.Run()
 	os.Exit(code)
 
 	a.Run(":3000")
+}
+
+func createNewUser() {
+	firstUser = user.User{Name: "first user", Email: "fu@email.com"}
+	result := a.Db.Create(&firstUser)
+	if result.Error != nil {
+		panic("first user creationg failed")
+	}
+	firstUserId = firstUser.ID.String()
 }

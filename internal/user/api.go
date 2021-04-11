@@ -23,6 +23,7 @@ func CreateUser(db *gorm.DB) func(w http.ResponseWriter, r *http.Request) {
 
 		userIsAllowed := db.Where("email = ?", user.Email).First(&user).RecordNotFound()
 
+		// u := MakeNewUser(user)
 		if !userIsAllowed {
 			w.WriteHeader(http.StatusConflict)
 			err := RequestError{Code: http.StatusConflict, Msg: "User already exists"}
