@@ -24,34 +24,10 @@ func TestMain(m *testing.M) {
 	}
 	defer app.Db.Close()
 
-	makeTablesEmpty()
 	code := m.Run()
 	os.Exit(code)
-	cleanTables()
 
 	app.Run(":3000")
-}
-
-func makeTablesEmpty() {
-	if err := app.Db.Exec(`DELETE FROM users`); err.Error != nil {
-		fmt.Printf("error: %v\n", err)
-		log.Fatal(err.Error.Error())
-	}
-
-	if err := app.Db.Exec(`DELETE FROM quizzes`); err.Error != nil {
-		log.Fatal(err.Error.Error())
-	}
-
-}
-
-func cleanTables() {
-	if err := app.Db.Exec(`DELETE FROM users`); err.Error != nil {
-		log.Fatal(err.Error.Error())
-	}
-
-	if err := app.Db.Exec(`DELETE FROM quizzes`); err.Error != nil {
-		log.Fatal(err.Error.Error())
-	}
 }
 
 func TestCreateUser(t *testing.T) {
