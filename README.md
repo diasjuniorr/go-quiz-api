@@ -14,10 +14,10 @@ git clone https://github.com/jotajay/go-quiz-api.git
 
 # To initialize the API
 cd go-quiz-api
-go build /cmd/server/*.go
-./app
+make dev
 
 # To test the API
+# you need a postgres container running
 make test
 ```
 
