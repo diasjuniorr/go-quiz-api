@@ -9,29 +9,34 @@ import (
 	"net/http/httptest"
 	"os"
 	"testing"
+
+	"github.com/jotajay/go-quiz-app/cmd/app"
 )
 
-var app App
+var a app.AppStruct
 
 func TestMain(m *testing.M) {
-	app = App{}
+	a = app.AppStruct{}
 	connStr := `port=5432 user=postgres dbname=quiztestdb sslmode=disable password=superpass@123`
 
-	err := app.Initialize(connStr)
+	err := a.Initialize(connStr)
 	if err != nil {
 		fmt.Printf("error initializing: %v\n", err)
 		panic("application failed to initialize")
 	}
-	fmt.Println("Db initialized at", connStr)
-	defer app.Db.Close()
+	defer a.Db.Close()
 
 	code := m.Run()
 	os.Exit(code)
 
-	app.Run(":3000")
+	a.Run(":3000")
 }
 
 func TestCreateUser(t *testing.T) {
+	// tCases := []struct {
+	// 	name string
+	// 	request
+	// }
 	var jsonStr = []byte(`{"Name": "user","Email" : "user@mail.com", "password": "password"}`)
 
 	req, err := http.NewRequest("POST", "/users", bytes.NewBuffer(jsonStr))
@@ -41,10 +46,10 @@ func TestCreateUser(t *testing.T) {
 
 	response := httptest.NewRecorder()
 
-	app.Router.ServeHTTP(response, req)
+	a.Router.ServeHTTP(response, req)
 
 	if response.Code != http.StatusCreated {
-		t.Errorf("response code expected: %v. Got %v", http.StatusCreated, response.Code)
+		t.Errorf("response code expected: %v. Got: %v", http.StatusCreated, response.Code)
 	}
 
 }

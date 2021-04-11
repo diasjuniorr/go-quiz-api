@@ -1,19 +1,23 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/jotajay/go-quiz-app/cmd/app"
+)
 
 func main() {
-	app := App{}
+	a := app.AppStruct{}
 
 	//TODO use fmt.Printf for dynamic variables
 	connStr := `port=5432 user=postgres dbname=postgres sslmode=disable password=superpass@123`
 
-	err := app.Initialize(connStr)
+	err := a.Initialize(connStr)
 	if err != nil {
 		fmt.Printf("error initializing: %v\n", err)
 		panic("application failed to initialize")
 	}
-	defer app.Db.Close()
+	defer a.Db.Close()
 
-	app.Run(":3000")
+	a.Run(":3000")
 }
