@@ -15,13 +15,14 @@ var app App
 
 func TestMain(m *testing.M) {
 	app = App{}
-	connStr := `port=5432 user=postgres dbname=postgres sslmode=disable password=superpass@123`
+	connStr := `port=5432 user=postgres dbname=quiztestdb sslmode=disable password=superpass@123`
 
 	err := app.Initialize(connStr)
 	if err != nil {
 		fmt.Printf("error initializing: %v\n", err)
 		panic("application failed to initialize")
 	}
+	fmt.Println("Db initialized at", connStr)
 	defer app.Db.Close()
 
 	code := m.Run()
