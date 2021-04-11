@@ -45,3 +45,4 @@ Now you have the API at `http://127.0.0.1:3000` providing the following endpoint
 - [] Add log system
 - [] Add CI/CD
 - [] Create endpoints for Quiz, CompletedQuiz & Score
+- [] Create config env
