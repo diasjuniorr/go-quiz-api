@@ -18,4 +18,5 @@ set -e
 
 echo "Starting api..."
 
-go run cmd/server/main.go
+# go run cmd/server/main.go
+docker-compose up
