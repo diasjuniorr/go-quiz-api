@@ -12,12 +12,13 @@ install Go on your computer. The API requires **Go 1.16 or above**.
 # clone the repo
 git clone https://github.com/jotajay/go-quiz-api.git
 
+# you need a postgres container running
+docker run -dp "5432:5432" --name <name> -e POSTGRES_PASSWORD=<your-password> postgres
 # To initialize the API
 cd go-quiz-api
 make dev
 
 # To test the API
-# you need a postgres container running
 make test
 ```
 
