@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  api:
+    build: ./
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:supersecret@db:5432/quiz-app-db?sslmode=disable
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./:/app
+
+  db:
+    image: postgres:12.5
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=supersecret
+      - POSTGRES_DB=quiz-app-db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
